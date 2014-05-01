@@ -1,0 +1,29 @@
+#!/usr/bin/python
+
+import sys
+import collections
+import json
+import argparse
+from jsonops import *
+line=sys.stdin.read()
+json=json.loads(line)
+command=sys.argv[1]
+
+commands={
+	"array-head": array_head,
+	"array-tail": array_tail,
+	"array-slice": array_slice,
+#	"array-get": array_get,
+#	"array-filter": array_filter,
+#	"array-map":array_map,
+#	"array-to-object": array_to_object,
+#	"array-join": array_join,
+#	"array-fold": array_fold,
+#	"array-lfold": array_lfold,
+#	"array-rfold": array_rfold
+#	"array-sort":array_sort,
+#	"array-uniq":array_uniq,
+#	"array-shuffle":array_shuffle
+}
+args=collections.defaultdict(lambda:None)
+print commands[command](json,args)
