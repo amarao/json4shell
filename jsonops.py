@@ -6,6 +6,8 @@
 		args - defaultdict with options (None if no option defined)
 	Every function returns processed json or raise exception
 '''
+from random import shuffle
+
 
 def array_slice(j, args):
     argument = args[0] #The rest of arguments is not needed
@@ -43,3 +45,19 @@ def array_get(j,args):
         raise #Same here, need to see which exception is suitable here
     result = j[position]
     return result
+
+def array_uniq(j,args):
+    #Can't think of any possible arguments now
+    seen = {}
+    result = []
+    for item in j:
+        if item in seen: continue
+        seen[item] = 1
+        result.append(item)
+    return result
+
+def array_shuffle(j, args):
+    #No args needed
+    shuffle(j)
+    return j
+

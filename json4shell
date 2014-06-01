@@ -31,8 +31,8 @@ commands={
 #	"array-lfold": array_lfold,
 #	"array-rfold": array_rfold
 #	"array-sort":array_sort,
-#	"array-uniq":array_uniq,
-#	"array-shuffle":array_shuffle
+	"array-uniq":array_uniq,
+	"array-shuffle":array_shuffle
 }
 
 try: #Checking command's existence in the list
