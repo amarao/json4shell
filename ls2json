@@ -1,0 +1,15 @@
+from os import lstat,listdir,path
+import argparse
+from sys import argv
+
+result = {}
+try: 
+    dir = argv[1] #TODO: remake to argparse, and, possibly, accept some of original "ls" options that are suitable in case of JSON output
+except:
+    dir = "."
+filenames = listdir(dir)
+for filename in filenames:
+    full_path = path.join(dir,filename)
+    result[filename] = lstat(full_path)
+    #TODO: need to convert all those posix.statresult to proper json-compliant dicts
+print result

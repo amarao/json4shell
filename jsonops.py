@@ -6,8 +6,6 @@
 		args - defaultdict with options (None if no option defined)
 	Every function returns processed json or raise exception
 '''
-from random import shuffle
-
 
 def array_slice(j, args):
     argument = args[0] #The rest of arguments is not needed
@@ -57,7 +55,15 @@ def array_uniq(j,args):
     return result
 
 def array_shuffle(j, args):
+    from random import shuffle
     #No args needed
     shuffle(j)
     return j
 
+def array_sort(j,args):
+    #TODO - implement string sorting according to language - will need to ompletely revise
+    if "reversed" in args:
+        j.sort(reverse=True)
+    else:
+        j.sort()
+    return j
