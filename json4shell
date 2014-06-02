@@ -1,5 +1,5 @@
-#!/usr/bin/python
-#TODO - define suitable exceptions, exit codes and some other details
+# !/usr/bin/python
+# TODO - define suitable exceptions, exit codes and some other details
 
 import sys
 import collections
@@ -7,43 +7,48 @@ import json
 import argparse
 from jsonops import *
 try:
-    command=sys.argv[1]
+    command = sys.argv[1]
 except IndexError:
-    sys.exit(1) #We'd need usage explanation here as no arguments were supplied
-line=sys.stdin.read()
-json=json.loads(line)
+    sys.exit(1)
+    #  We'd need usage explanation here as no arguments were supplied
+line = sys.stdin.read()
+json = json.loads(line)
 
 if type(json) != list:
-    sys.exit(1) #Not a list, cannot operate on this
-#What if somebody supplies a dict here?
+    sys.exit(1)  # Not a list, cannot operate on this
+# What if somebody supplies a dict here?
 args = sys.argv[2:]
 
-commands={
-	"array-head": array_head,
-	"array-tail": array_tail,
-	"array-slice": array_slice,
-	"array-get": array_get,
-#	"array-filter": array_filter,
-#	"array-map":array_map,
-#	"array-to-object": array_to_object,
-#	"array-join": array_join,
-#	"array-fold": array_fold,
-#	"array-lfold": array_lfold,
-#	"array-rfold": array_rfold
-	"array-sort":array_sort,
-	"array-uniq":array_uniq,
-	"array-shuffle":array_shuffle
+commands = {
+    "array-head": array_head,
+    "array-tail": array_tail,
+    "array-slice": array_slice,
+    "array-get": array_get,
+#   "array-filter": array_filter,
+#   "array-map": array_map,
+#   "array-to-object": array_to_object,
+#   "array-join": array_join,
+#   "array-fold": array_fold,
+#   "array-lfold": array_lfold,
+#   "array-rfold": array_rfold,
+    "array-sort": array_sort,
+    "array-uniq": array_uniq,
+    "array-shuffle": array_shuffle
 }
 
-try: #Checking command's existence in the list
-   function = commands[command]
+try:  # Checking command's existence in the list
+    function = commands[command]
 except KeyError:
-   sys.exit(1) #We'd need usage explanation here as command is not supported
+    sys.exit(1)
+    # We'd need usage explanation here as command
+    # is not supported
 
-try: #Functions may throw exception in case of wrong arguments or something like that
-   result = function(json,args)
+try:
+# Functions may throw exception in case of wrong
+# arguments or something like that
+    result = function(json, args)
 except:
-   pass #More sophisticated exception processing to be added
-   sys.exit(1)
+    pass  # More sophisticated exception processing to be added
+    sys.exit(1)
 else:
-   print result
+    print result
