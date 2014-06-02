@@ -78,3 +78,44 @@ def array_sort(j, args):
     else:
         j.sort()
     return j
+
+
+def object_get(j, args):
+    '''
+        return value for key in args[0]
+    '''
+    #TODO types for keys!
+    return j[args[0]]
+
+
+def object_keys(j, args):
+    '''
+        return array of keys from object (stip off values)
+    '''
+    return j.keys()
+
+
+def object_values(j, args):
+    '''
+        return array of values from object (stip off keys)
+    '''
+    return j.values()
+
+
+def array_enumerate(j, args):
+    '''
+        convert array to object, adding order number as key
+        if args[0] present, it used as number, if not,
+        numbering happens from 0.
+    '''
+    cnt = 0
+    try:
+        cnt = int(args[0])
+    except:  # TODO exception here
+        pass
+
+    ret = {}
+    for e in j:
+        ret[cnt] = e
+        cnt += 1
+    return ret

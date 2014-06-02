@@ -1,0 +1,15 @@
+Existing commands:
+
+    * array-head N - return first N elements in array
+    * array-tail N - return last N elements in array
+    * array-slice [N:M] - return elements from N to M
+    * array-get N - return N element from array (without [ ] around)
+    * array-uniq - return deduplicated array (every element repeat once)
+    * array-sort - sort array elements
+    * array-shuffle - randomize array
+    * object-get key - return value for key in object
+    * object-values - return values of object as array
+    * object-keys - return keys of object as array
+    * array-enumerate N - return object from array with incresing 
+                          interger number (from N or from 0 if no N),
+                          'enumerating' list

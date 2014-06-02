@@ -1,6 +1,5 @@
-# !/usr/bin/python
+#!/usr/bin/python
 # TODO - define suitable exceptions, exit codes and some other details
-
 import sys
 import collections
 import json
@@ -33,7 +32,11 @@ commands = {
 #   "array-rfold": array_rfold,
     "array-sort": array_sort,
     "array-uniq": array_uniq,
-    "array-shuffle": array_shuffle
+    "array-shuffle": array_shuffle,
+    "array-enumerate": array_enumerate,
+    "object-get": object_get,
+    "object-keys": object_keys,
+    "object-values": object_values
 }
 
 try:  # Checking command's existence in the list

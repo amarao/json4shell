@@ -9,7 +9,9 @@ See
 * http://amarao-san.livejournal.com/2813949.html for whole idea (Russian)
 * http://habrahabr.ru/post/102072 public idea (Russian)
 
-Developer notes:
+
+Developer notes
+===============
 
 1. Contribution is welcome!
 2. Any module is ok if it does not create additional dependences or force additional rules on other modules.
