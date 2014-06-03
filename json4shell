@@ -1,47 +1,53 @@
-#!/usr/bin/python
+#!/usr/bin/env python
+
 # TODO - define suitable exceptions, exit codes and some other details
 import sys
 import collections
-import json
 import argparse
-from jsonops import *
+from lib import jsonops
+
 try:
     command = sys.argv[1]
 except IndexError:
+    print "No command given"
     sys.exit(1)
     #  We'd need usage explanation here as no arguments were supplied
-line = sys.stdin.read()
-json = json.loads(line)
 
-if type(json) != list:
-    sys.exit(1)  # Not a list, cannot operate on this
-# What if somebody supplies a dict here?
+line = sys.stdin.read()
+try:
+    json=jsonops.load_json(line)
+except ValueError as e:
+    print "Cannot parse json: " + str(e)
+    sys.exit(1)
+
 args = sys.argv[2:]
 
 commands = {
-    "array-head": array_head,
-    "array-tail": array_tail,
-    "array-slice": array_slice,
-    "array-get": array_get,
-#   "array-filter": array_filter,
-#   "array-map": array_map,
-#   "array-to-object": array_to_object,
-#   "array-join": array_join,
-#   "array-fold": array_fold,
-#   "array-lfold": array_lfold,
-#   "array-rfold": array_rfold,
-    "array-sort": array_sort,
-    "array-uniq": array_uniq,
-    "array-shuffle": array_shuffle,
-    "array-enumerate": array_enumerate,
-    "object-get": object_get,
-    "object-keys": object_keys,
-    "object-values": object_values
+    "array-head": jsonops.array_head,
+    "array-tail": jsonops.array_tail,
+    "array-slice": jsonops.array_slice,
+    "array-get": jsonops.array_get,
+#   "array-filter": jsonops.array_filter,
+#   "array-map": jsonops.array_map,
+#   "array-to-object": jsonops.array_to_object,
+#   "array-join": jsonops.array_join,
+#   "array-fold": jsonops.array_fold,
+#   "array-lfold": jsonops.array_lfold,
+#   "array-rfold": jsonops.array_rfold,
+    "array-sort": jsonops.array_sort,
+    "array-uniq": jsonops.array_uniq,
+    "array-shuffle": jsonops.array_shuffle,
+    "array-enumerate": jsonops.array_enumerate,
+    "object-get": jsonops.object_get,
+    "object-keys": jsonops.object_keys,
+    "object-values": jsonops.object_values,
+    "print": jsonops.pprint
 }
 
 try:  # Checking command's existence in the list
     function = commands[command]
 except KeyError:
+    print "No such command"
     sys.exit(1)
     # We'd need usage explanation here as command
     # is not supported
@@ -49,9 +55,10 @@ except KeyError:
 try:
 # Functions may throw exception in case of wrong
 # arguments or something like that
-    result = function(json, args)
-except:
-    pass  # More sophisticated exception processing to be added
+    result = function(json, *args)
+except Exception as e:
+    #More sophisticated exception processing to be added
+    print "Error: " + str(e)
     sys.exit(1)
 else:
-    print result
+    print unicode(result).encode('utf8')
