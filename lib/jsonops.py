@@ -59,14 +59,14 @@ def array_uniq(j, *args):
 
 def array_shuffle(j, *args):
     from random import shuffle
-    #No args needed
+    # No args needed
     shuffle(j)
     return pprint(j)
 
 
 def array_sort(j, is_reversed="", *args):
-    #TODO - implement string sorting
-    #according to language - will need to ompletely revise
+    # TODO: implement string sorting
+    # according to language - will need to ompletely revise
     if "reversed" in is_reversed:
         j.sort(reverse=True)
     else:
@@ -78,7 +78,7 @@ def object_get(j, key, *args):
     '''
         return value for key
     '''
-    #TODO types for keys!
+    # TODO: types for keys!
     # TODO: Bad argument handling
     return pprint(j[key])
 
@@ -121,5 +121,6 @@ def pprint(j, indent=4, sort_keys=False, *args):
     indent = int(indent)
     sort_keys = bool(sort_keys)
 
-    return json.dumps(j, ensure_ascii=False, indent=indent,
+    return json.dumps(
+        j, ensure_ascii=False, indent=indent,
         encoding="utf-8", sort_keys=sort_keys)

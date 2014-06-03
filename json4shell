@@ -15,7 +15,7 @@ except IndexError:
 
 line = sys.stdin.read()
 try:
-    json=jsonops.load_json(line)
+    json = jsonops.load_json(line)
 except ValueError as e:
     print "Cannot parse json: " + str(e)
     sys.exit(1)
@@ -27,13 +27,13 @@ commands = {
     "array-tail": jsonops.array_tail,
     "array-slice": jsonops.array_slice,
     "array-get": jsonops.array_get,
-#   "array-filter": jsonops.array_filter,
-#   "array-map": jsonops.array_map,
-#   "array-to-object": jsonops.array_to_object,
-#   "array-join": jsonops.array_join,
-#   "array-fold": jsonops.array_fold,
-#   "array-lfold": jsonops.array_lfold,
-#   "array-rfold": jsonops.array_rfold,
+    # "array-filter": jsonops.array_filter,
+    # "array-map": jsonops.array_map,
+    # "array-to-object": jsonops.array_to_object,
+    # "array-join": jsonops.array_join,
+    # "array-fold": jsonops.array_fold,
+    # "array-lfold": jsonops.array_lfold,
+    # "array-rfold": jsonops.array_rfold,
     "array-sort": jsonops.array_sort,
     "array-uniq": jsonops.array_uniq,
     "array-shuffle": jsonops.array_shuffle,
@@ -53,11 +53,11 @@ except KeyError:
     # is not supported
 
 try:
-# Functions may throw exception in case of wrong
-# arguments or something like that
+    # Functions may throw exception in case of wrong
+    # arguments or something like that
     result = function(json, *args)
 except Exception as e:
-    #More sophisticated exception processing to be added
+    # More sophisticated exception processing to be added
     print "Error: " + str(e)
     sys.exit(1)
 else:

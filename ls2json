@@ -1,20 +1,22 @@
 #!/usr/bin/env python
 
-from os import lstat,listdir,path
+from os import lstat, listdir, path
 import argparse
 from sys import argv
 from lib import jsonops
 
 result = {}
 try:
-    directory = argv[1] #TODO: remake to argparse, and, possibly, accept some of original "ls" options that are suitable in case of JSON output
+    # TODO: remake to argparse, and, possibly, accept some of original "ls"
+    # options that are suitable in case of JSON output
+    directory = argv[1]
 except:
     directory = "."
 
 filenames = listdir(directory)
 for filename in filenames:
-    full_path = path.join(directory,filename)
+    full_path = path.join(directory, filename)
     f = lstat(full_path)
     result[filename] = dict((name, getattr(f, name))
-		for name in dir(f) if not name.startswith('__'))
+                            for name in dir(f) if not name.startswith('__'))
 print jsonops.pprint(result)
