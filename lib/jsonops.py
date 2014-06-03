@@ -10,8 +10,7 @@ import json
 '''
 
 
-def array_slice(j, *args):
-    argument = args[0]  # The rest of arguments is not needed
+def array_slice(j, argument, *args):
     # argument is something like "0:10", let's try parsing that
     try:
         start, end = [int(x) for x in argument[1:-1].split(":")]
@@ -26,28 +25,22 @@ def array_slice(j, *args):
     return pprint(j[start:end])
 
 
-def array_head(j, *args):
-    try:
-        end = int(args[0])
-    except:
-        raise  # Same here, need to see which exception is suitable here
+def array_head(j, end, *args):
+    # TODO: Bad argument handling
+    end = int(end)
     return pprint(j[:end])
 
 
-def array_tail(j, *args):
-    try:
-        start = int(args[0])
-    except:
-        raise  # Same here, need to see which exception is suitable here
+def array_tail(j, start, *args):
+    # TODO: Bad argument handling
+    start = int(start)
     result = j[start:]
     return pprint(j[start:])
 
 
-def array_get(j, *args):
-    try:
-        position = int(args[0])
-    except:
-        raise  # Same here, need to see which exception is suitable here
+def array_get(j, position, *args):
+    # TODO: Bad argument handling
+    position = int(position)
     result = j[position]
     return result
 
@@ -71,22 +64,23 @@ def array_shuffle(j, *args):
     return pprint(j)
 
 
-def array_sort(j, *args):
+def array_sort(j, is_reversed="", *args):
     #TODO - implement string sorting
     #according to language - will need to ompletely revise
-    if "reversed" in args:
+    if "reversed" in is_reversed:
         j.sort(reverse=True)
     else:
         j.sort()
     return pprint(j)
 
 
-def object_get(j, *args):
+def object_get(j, key, *args):
     '''
-        return value for key in args[0]
+        return value for key
     '''
     #TODO types for keys!
-    return pprint(j[args[0]])
+    # TODO: Bad argument handling
+    return pprint(j[key])
 
 
 def object_keys(j, *args):
@@ -103,18 +97,14 @@ def object_values(j, *args):
     return pprint(j.values())
 
 
-def array_enumerate(j, *args):
+def array_enumerate(j, cnt=0, *args):
     '''
         convert array to object, adding order number as key
-        if args[0] present, it used as number, if not,
+        if cnt present, it used as number, if not,
         numbering happens from 0.
     '''
-    cnt = 0
-    try:
-        cnt = int(args[0])
-    except:  # TODO exception here
-        pass
-
+    # TODO: Bad argument handling
+    cnt = int(cnt)
     ret = {}
     for e in j:
         ret[cnt] = e
@@ -126,15 +116,10 @@ def load_json(line, *args):
     return json.loads(line, "utf-8")
 
 
-def pprint(j, *args):
-    try:
-        indent=int(args[0])
-    except IndexError:
-        indent = 4
-    try:
-        sort_keys=bool(args[1])
-    except IndexError:
-        sort_keys=False
+def pprint(j, indent=4, sort_keys=False, *args):
+    # TODO: Bad argument handling
+    indent = int(indent)
+    sort_keys = bool(sort_keys)
 
     return json.dumps(j, ensure_ascii=False, indent=indent,
         encoding="utf-8", sort_keys=sort_keys)
