@@ -61,37 +61,39 @@ class Array_tail_tests(unittest.TestCase):
 
 class Object_get_tests(unittest.TestCase):
     def test_strings(self):
-        self.failUnless(jsonops.object_get({"f": "b", "z": "q"}, ["z"]) == "q")
+        self.failUnless(
+            jsonops.object_get({"f": "b", "z": "q"}, "z")
+            == jsonops.pprint("q"))
 
 
 class Object_keys_tests(unittest.TestCase):
     def test_empty(self):
-        self.failUnless(jsonops.object_keys({}, []) == [])
+        self.failUnless(jsonops.object_keys({}) == jsonops.pprint([]))
 
     def test_normal(self):
         self.failUnless(
-            jsonops.object_keys({"1": "a", "2": "b"}, []) == ["1", "2"]
-        )
+            jsonops.object_keys({"1": "a", "2": "b"})
+            == jsonops.pprint(["1", "2"]))
 
 
 class Object_values_tests(unittest.TestCase):
     def test_empty(self):
-        self.failUnless(jsonops.object_values({}, []) == [])
+        self.failUnless(jsonops.object_values({}) == jsonops.pprint([]))
 
     def test_normal(self):
         self.failUnless(
-            jsonops.object_values({"1": "a", "2": "b"}, []) == ["a", "b"]
-        )
+            jsonops.object_values({"1": "a", "2": "b"})
+            == jsonops.pprint(["a", "b"]))
 
 
 class Object_values_tests(unittest.TestCase):
     def test_empty(self):
-        self.failUnless(jsonops.array_enumerate([], ["4"]) == {})
+        self.failUnless(jsonops.array_enumerate([], "4") == jsonops.pprint({}))
 
     def test_normal(self):
         self.failUnless(
-            jsonops.array_enumerate({"a", "b"}, ["4"]) == {4: "a", 5: "b"}
-        )
+            jsonops.array_enumerate({"a", "b"}, "4")
+            == jsonops.pprint({4: "a", 5: "b"}))
 
 
 def main():
