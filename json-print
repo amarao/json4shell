@@ -1,0 +1,29 @@
+#!/usr/bin/env python
+
+import sys
+import argparse
+from lib import jsonops
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-i", "--indent", type=int, default=4,
+                    help="indent for pretty print")
+parser.add_argument("-s", "--sort-keys", action="store_true",
+                    help="sort keys in objects")
+args = parser.parse_args()
+
+line = sys.stdin.read()
+
+try:
+    json = jsonops.load_json(line)
+except ValueError as e:
+    print "Cannot parse json: " + str(e)
+    sys.exit(1)
+
+try:
+    result = jsonops.pprint(json, indent=args.indent, sort_keys=args.sort_keys)
+except Exception as e:
+    # More sophisticated exception processing to be added
+    print "Error: " + str(e)
+    sys.exit(1)
+else:
+    print unicode(result).encode('utf8')
