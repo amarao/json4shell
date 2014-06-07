@@ -3,7 +3,7 @@
 from os import lstat, listdir, path
 import argparse
 from sys import argv
-from lib import jsonops
+from bin.lib import jsonops
 
 result = {}
 try:

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import unittest
-from lib import jsonops
+from bin.lib import jsonops
 import json
 
 
