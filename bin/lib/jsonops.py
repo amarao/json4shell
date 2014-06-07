@@ -40,7 +40,7 @@ def array_get(j, index):
         get array element by it index
     '''
     # TODO: handle bad index
-    return j[index]
+    return pprint(j[index])
 
 
 def array_uniq(j):
