@@ -13,7 +13,7 @@ def get_array_inner_types(a):
 
 
 def simple_exec(cmd, j):
-    args = cmd + [str(j)]
+    args = cmd + j
     subprocess.call(
         args,
         stdout=sys.stdout,
