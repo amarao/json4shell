@@ -9,7 +9,7 @@ def get_array_inner_types(a):
         Return tuple of types
         found in array
     '''
-    return tuple(set(map(type, a)))
+    return set(map(type, a))
 
 
 def simple_exec(cmd, j):

@@ -33,7 +33,8 @@ import argparse
 from lib import jsonops
 from lib import jsoniter
 
-#parser = argparse.ArgumentParser()
+
+parser = argparse.ArgumentParser(description='Iterate specified command over json array\'s elements from stdin')
 #parser.add_argument()
 #args = parser.parse_args()
 
@@ -49,16 +50,17 @@ if type(json) != list:
     sys.exit(5)
 
 line_types = jsoniter.get_array_inner_types(json)
-if len(line_types) > 1:
+if (list in line_types or dict in line_types) and len(line_types)>1:
     print "Multiple types inside array not supported"
     sys.exit(5)
 
 if len(line_types) == 0:
     sys.exit(0)
 
-if line_types[0] in (int, str, bool):
+if line_types <= set ((int, str, bool)):
     for el in json:
-        jsoniter.simple_exec(sys.argv[1:], list(el))
+        jsoniter.simple_exec(sys.argv[1:], [str(el),])
+
 else:
     print "Unsupported type for iteration:", line_types[0]
 
