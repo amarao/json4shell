@@ -16,14 +16,12 @@ input_data = sys.stdin.read()
 try:
     json = jsonops.load_json(input_data)
 except ValueError as e:
-    print "Cannot parse json: " + str(e)
-    sys.exit(1)
+    jsonops.handle_json_error(e)
 
 try:
     result = jsonops.array_slice(json, args.start, args.end)
 except Exception as e:
-    # More sophisticated exception processing to be added
-    print "Error: " + str(e)
-    sys.exit(1)
-else:
-    print unicode(result).encode('utf8')
+    jsonops.handle_operation_error(e)
+
+
+print unicode(result).encode('utf8')
