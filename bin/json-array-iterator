@@ -1,0 +1,66 @@
+#!/usr/bin/env python
+'''
+    Will run specified command over each element of JSON array
+    and passing it (or it elements) as command line.
+
+    If array consists of:
+    1) simple objects (string/number), than it will iterated over
+       'as is', passing one element of array in a time.
+
+    2) arrays, than all values of nested array will be placed as
+       arguments
+
+    3) objects, than we allow to specify key or/and values
+
+    All variants allow to space arguments to specified place.
+
+    Whole idea is to create 'xargs' with json-driven input,
+    and command line options/behavior should be similar.
+
+    Unsolved cases: what if array consists of different elements?
+
+    Implementation plan:
+    1) Create a 'type detector'
+    2) Implements case1 (as is) (output to stdout)
+    3) Add -I option
+    4) Add -n option
+    5) (fog of war)
+
+'''
+
+import sys
+import argparse
+from lib import jsonops
+from lib import jsoniter
+
+#parser = argparse.ArgumentParser()
+#parser.add_argument()
+#args = parser.parse_args()
+
+line = sys.stdin.read()
+try:
+    json = jsonops.load_json(line)
+except ValueError as e:
+    print "Cannot parse json: " + str(e)
+    sys.exit(1)
+
+if type(json) != list:
+    print "JSON is not array at toplevel"
+    sys.exit(5)
+
+line_types = jsoniter.get_array_inner_types(json)
+if len(line_types) > 1:
+    print "Multiple types inside array not supported"
+    sys.exit(5)
+
+if len(line_types) == 0:
+    sys.exit(0)
+
+if line_types[0] in (int, str, bool):
+    for el in json:
+        jsoniter.simple_exec(sys.argv[1:], el)
+else:
+    print "Unsupported type for iteration:", line_types[0]
+
+
+#    print unicode(result).encode('utf8')
