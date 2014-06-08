@@ -7,10 +7,10 @@ from lib import jsonops
 parser = argparse.ArgumentParser()
 args = parser.parse_args()
 
-line = sys.stdin.read()
+input_data = sys.stdin.read()
 
 try:
-    json = jsonops.load_json(line)
+    json = jsonops.load_json(input_data)
 except ValueError as e:
     print "Cannot parse json: " + str(e)
     sys.exit(1)
