@@ -34,9 +34,11 @@ from lib import jsonops
 from lib import jsoniter
 
 
-parser = argparse.ArgumentParser(description='Iterate specified command over json array\'s elements from stdin')
-#parser.add_argument()
-#args = parser.parse_args()
+parser = argparse.ArgumentParser(
+    description='Iterate command over elements in array from stdin'
+    )
+# parser.add_argument()
+# args = parser.parse_args()
 
 line = sys.stdin.read()
 try:
@@ -50,19 +52,24 @@ if type(json) != list:
     sys.exit(5)
 
 line_types = jsoniter.get_array_inner_types(json)
-if (list in line_types or dict in line_types) and len(line_types)>1:
+if (list in line_types or dict in line_types) and len(line_types) > 1:
     print "Multiple types inside array not supported"
     sys.exit(5)
 
 if len(line_types) == 0:
     sys.exit(0)
 
-if line_types <= set ((int, str, bool)):
+if line_types <= set((int, str, bool)):
     for el in json:
-        jsoniter.simple_exec(sys.argv[1:], [str(el),])
-
+        jsoniter.simple_exec(sys.argv[1:], list(str(el)))
+elif line_types == set((list,)):
+    for el in json:
+        if not (jsoniter.get_array_inner_types(el) <= set((str, int, bool))):
+            print "Recursion is too deep, tripple nested objects not supported"
+            sys.exit(5)
+        jsoniter.simple_exec(sys.argv[1:], map(str, el))
 else:
-    print "Unsupported type for iteration:", line_types[0]
+    print "Unsupported type for iteration:", line_types
 
 
 #    print unicode(result).encode('utf8')
