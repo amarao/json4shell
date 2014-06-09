@@ -37,9 +37,29 @@ from lib import jsoniter
 parser = argparse.ArgumentParser(
     description='Iterate command over elements in array from stdin'
     )
-# parser.add_argument()
-# args = parser.parse_args()
-
+parser.add_argument(
+    "-n", "--max-args",
+    help="Use  at  most  max-args  arguments per command line.",
+    type=int,
+    default=0
+)
+recursion = parser.add_mutually_exclusive_group()
+recursion.add_argument(
+    "-D", "--depth",
+    help="Process recursively arrays and subarrays, depth scan",
+    action="store_true"
+)
+recursion.add_argument(
+    "-W", "--width",
+    help="Process recursively arrays and subarrays, width scan",
+    action="store_true"
+)
+parser.add_argument(
+    "command",
+    nargs=argparse.REMAINDER,
+    help="Command to execute on chunk from stdin JSON array"
+)
+args = parser.parse_args()
 line = sys.stdin.read()
 try:
     json = jsonops.load_json(line)
