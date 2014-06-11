@@ -11,19 +11,17 @@ parser.add_argument("-s", "--sort-keys", action="store_true",
                     help="sort keys in objects")
 args = parser.parse_args()
 
-line = sys.stdin.read()
+input_data = sys.stdin.read()
 
 try:
-    json = jsonops.load_json(line)
+    json = jsonops.load_json(input_data)
 except ValueError as e:
-    print "Cannot parse json: " + str(e)
-    sys.exit(1)
+    jsonops.handle_json_error(e)
 
 try:
     result = jsonops.pprint(json, indent=args.indent, sort_keys=args.sort_keys)
 except Exception as e:
-    # More sophisticated exception processing to be added
-    print "Error: " + str(e)
-    sys.exit(1)
-else:
-    print unicode(result).encode('utf8')
+    jsonops.handle_operation_error(e)
+
+
+print unicode(result).encode('utf8')

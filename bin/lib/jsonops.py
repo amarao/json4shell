@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+from __future__ import print_function
+import sys
 import json
 '''
     JSON ops - operation on json
@@ -9,6 +11,7 @@ import json
     Every function returns processed json or raise exception
 '''
 
+# TODO: add custom error classes
 
 def array_slice(j, start, end):
     '''
@@ -130,3 +133,19 @@ def pprint(j, indent=4, sort_keys=False):
     return json.dumps(
         j, ensure_ascii=False, indent=indent,
         encoding="utf-8", sort_keys=sort_keys)
+
+
+def handle_json_error(e):
+    # TODO: More sophisticated exception processing to be added
+    if type(e) is ValueError:
+        print("Cannot parse json: " + str(e), file=sys.stderr)
+        sys.exit(1)
+    else:
+        print("Unknown error while parsing JSON: " + str(e), file=sys.stderr)
+        sys.exit(1)
+
+def handle_operation_error(e):
+    # TODO: More sophisticated exception processing to be added
+
+    print("Unknown error on operation: " + str(e), file=sys.stderr)
+    sys.exit(1)
