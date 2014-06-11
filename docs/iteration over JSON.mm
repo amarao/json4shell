@@ -1,0 +1,76 @@
+<map version="0.9.0">
+<!-- To view this file, download free mind mapping software FreeMind from http://freemind.sourceforge.net -->
+<node CREATED="1402365018249" ID="ID_1333860051" MODIFIED="1402365591795" STYLE="bubble" TEXT="iteration over JSON">
+<edge STYLE="sharp_bezier"/>
+<node CREATED="1402365091244" ID="ID_62748362" MODIFIED="1402365094504" POSITION="right" TEXT="on arrays">
+<node CREATED="1402365099439" ID="ID_573438389" MODIFIED="1402365115701" TEXT="of plain elements">
+<node CREATED="1402365146047" ID="ID_1436819489" MODIFIED="1402365415389" TEXT="Reimplement xargs -n option">
+<icon BUILTIN="button_ok"/>
+</node>
+</node>
+<node CREATED="1402365117271" ID="ID_531284097" MODIFIED="1402365125677" TEXT="of plain elements and subarrays">
+<node CREATED="1402365178686" ID="ID_250015753" MODIFIED="1402365190981" TEXT="recursion control">
+<node CREATED="1402365191735" ID="ID_1004152268" MODIFIED="1402365196885" TEXT="algorithm">
+<node CREATED="1402365197479" ID="ID_46312951" MODIFIED="1402365426163" TEXT="depth">
+<icon BUILTIN="button_ok"/>
+</node>
+<node CREATED="1402365199198" ID="ID_1116444298" MODIFIED="1402365426163" TEXT="width">
+<icon BUILTIN="button_ok"/>
+</node>
+</node>
+<node CREATED="1402365205703" ID="ID_619643371" MODIFIED="1402365216813" TEXT="limiting recursion depth">
+<node CREATED="1402365217391" ID="ID_281403622" MODIFIED="1402365480882" TEXT="What to do with the rest?">
+<icon BUILTIN="help"/>
+<node CREATED="1402365487335" ID="ID_1498667693" MODIFIED="1402365506173" TEXT="Add option to skip or stop on unacceptble elements"/>
+</node>
+</node>
+</node>
+<node CREATED="1402365227463" ID="ID_1479051781" MODIFIED="1402365244109" TEXT="pass subarray as list of arguments">
+<node CREATED="1402365253655" ID="ID_30482935" MODIFIED="1402365559117" TEXT="set level of recursion, all subarrays lower than it will be threated as big subarray"/>
+</node>
+</node>
+<node CREATED="1402365128335" ID="ID_691204325" MODIFIED="1402365139725" TEXT="of objects">
+<node CREATED="1402365273231" ID="ID_1432644863" MODIFIED="1402365700067" TEXT="allow to name keys and values in command line">
+<node CREATED="1402365287558" ID="ID_462677284" MODIFIED="1402365577029" TEXT="One object per execution"/>
+</node>
+<node CREATED="1402365315239" ID="ID_1730409802" MODIFIED="1402365586922" TEXT="nested arrays/objects?">
+<icon BUILTIN="help"/>
+</node>
+</node>
+<node CREATED="1402365140663" ID="ID_458615968" MODIFIED="1402365144556" TEXT="mixed">
+<node CREATED="1402365336383" ID="ID_382151034" MODIFIED="1402365339845" TEXT="jpath?"/>
+<node CREATED="1402365372055" ID="ID_1237564442" MODIFIED="1402365386954" TEXT="ignore non-fitted?"/>
+</node>
+</node>
+<node CREATED="1402365595551" ID="ID_369974976" MODIFIED="1402365745329" POSITION="right" TEXT="on objects">
+<node CREATED="1402365611319" ID="ID_244656449" MODIFIED="1402365617861" TEXT="of plain elements">
+<node CREATED="1402365618447" ID="ID_854971923" MODIFIED="1402365647724" TEXT="Allow specify keys and values positions">
+<node CREATED="1402365648358" ID="ID_631786553" MODIFIED="1402365663643" TEXT="pairs are unordered">
+<icon BUILTIN="messagebox_warning"/>
+</node>
+</node>
+<node CREATED="1402365668263" ID="ID_557357341" MODIFIED="1402365700067" TEXT="Allow use values by key name">
+<arrowlink DESTINATION="ID_1432644863" ENDARROW="Default" ENDINCLINATION="-124;33;" ID="Arrow_ID_309572047" STARTARROW="None" STARTINCLINATION="-164;49;"/>
+</node>
+</node>
+<node CREATED="1402365708799" ID="ID_1470283087" MODIFIED="1402365774661" TEXT="of arrays">
+<node CREATED="1402365714951" ID="ID_1184626445" MODIFIED="1402365727171" TEXT="of plain elements">
+<node CREATED="1402365727734" ID="ID_1219997233" MODIFIED="1402365760613" TEXT="special syntax for arrays"/>
+</node>
+<node CREATED="1402365777007" ID="ID_320916582" MODIFIED="1402365781301" TEXT="of arrays">
+<node CREATED="1402365781879" ID="ID_174982974" MODIFIED="1402365787525" TEXT="same as for normal list">
+<node CREATED="1402365788055" ID="ID_193549935" MODIFIED="1402365793292" TEXT="recursion and so on"/>
+</node>
+</node>
+<node CREATED="1402365796991" ID="ID_404687671" MODIFIED="1402365813485" TEXT="of objects">
+<node CREATED="1402365813999" ID="ID_1241770879" MODIFIED="1402365822637" TEXT="allow foo[bar[baz]] like syntax"/>
+</node>
+<node CREATED="1402365826231" ID="ID_1756842060" MODIFIED="1402365830980" TEXT="of mixed elements">
+<node CREATED="1402365831615" ID="ID_1010766361" MODIFIED="1402365839810" TEXT="forbid/ignore?">
+<icon BUILTIN="help"/>
+</node>
+</node>
+</node>
+</node>
+</node>
+</map>
