@@ -2,7 +2,7 @@
 '''Function for json iteration'''
 import subprocess
 import sys
-
+import jpath
 
 def get_array_inner_types(a):
     '''
@@ -17,9 +17,8 @@ def simple_exec(cmd, j):
         execute cmd (list of command and it arguments)
         take j objects to iterate over
     '''
-    args = cmd + j
     subprocess.call(
-        args,
+        cmd,
         stdout=sys.stdout,
         stderr=sys.stderr
     )
@@ -82,3 +81,78 @@ def iterate_array(j, items_at_once=0, recursion=None):
         stash.append(str(obj))
     if len(stash) > 0:
         yield stash
+
+
+def split_on_queries(line):
+    '''
+        Split line to list of 'normal' strings
+        and jpath queries, queries are cleaned from braces
+        Input:
+            junk{.foo}trash{.bar}garbage
+        Output:
+            [ {'str':'junk'}, {'jpath':'.foo'},
+            {'str':'trash'}, {'jpath':'bar'}, {'str':'garbage'}]
+
+        '\\' is '\', '\(anycharacter)' is that character
+        unescaped '{expression}' is jpath expression
+        rest is just strings
+
+    '''
+
+    # finite state machine goes here, faster implementation welcomed
+    # states: None - normal text
+    # '{' - inside jpath
+    # '\' - inside escaping
+    buf = ""
+    state = None
+    for c in line:
+        if state is None:
+            if c == '{':
+                if len(buf) > 0:
+                    yield {'str': buf}
+                buf = ""
+                state = '{'
+                continue
+            if c == '\\':
+                state = '\\'
+                continue
+            buf += c
+            continue
+        elif state == '{':
+            if c == '}':
+                yield {'jpath': buf}
+                buf = ""
+                state = None
+                continue
+            else:
+                buf += c
+        elif state == '\\':
+            buf += c
+            state = None
+            continue
+    if len(buf) > 0 and state is None:
+        yield {'str': buf}
+    if state is not None:
+        pass  # Invalid syntax here
+
+
+def make_queries(parsed_arg, json):
+    '''
+        apply jpath to every query in parsed args
+        return list of strs
+        (plain text and results of queries)
+        expected generator as parsed_args
+        and json to pass to jpath.
+    '''
+    for a in parsed_arg:
+        if a.keys()[0] == 'str':
+            yield a['str']
+        elif a.keys()[0] == 'jpath':
+            result = jpath.get(a['jpath'], json)
+            # typechecking here
+            yield str(result)
+
+
+def jpath_exec(args, json, error_control=None):
+    processed=[''.join(make_queries(split_on_queries(arg), json)) for arg in args]
+    simple_exec(processed)
