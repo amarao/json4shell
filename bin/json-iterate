@@ -37,31 +37,40 @@ from lib import jsoniter
 parser = argparse.ArgumentParser(
     description='Iterate command over JSON from stdin'
     )
+#parser.add_argument(
+#    '-n', '--max-args',
+#    help='Limit arrays substitute for no more than MAX_ARGS elements. If any array has more than MAX_ARGS elements, stop, unless -T or -C',
+#    type=int,
+#    default=0
+#)
+#arrays = parser.add_mutually_exclusive_group()
+#arrays.add_argument(
+#    '-T', '--trim-arrays',
+#    help='Trim excessive elements in arrays (if -n is non zero)',
+#    action='store_true'
+#)
+#arrays.add_argument(
+#    '-C', '--continue-arrays',
+#    help='Repeat execution of command with same normal values but the rest of arrays value (if -n is non zero)',
+#    action='store_true'
+#    
+#)
+#parser.add_argument(
+#    '-R', '--depth',
+#    help='Stop recursion at DEPTH, starting point for jpath (default 1)',
+#    type=int,
+#    default=1
+#)
 parser.add_argument(
-    '-n', '--max-args',
-    help='Limit arrays substitute for no more than MAX_ARGS elements. If any array has more than MAX_ARGS elements, stop, unless -T or -C',
-    type=int,
-    default=0
-)
-arrays = parser.add_mutually_exclusive_group()
-arrays.add_argument(
-    '-T', '--trim-arrays',
-    help='Trim excessive elements in arrays (if -n is non zero)',
+    '-j', '--json',
+    help='Output execution results in json',
     action='store_true'
 )
-arrays.add_argument(
-    '-C', '--continue-arrays',
-    help='Repeat execution of command with same normal values but the rest of arrays value (if -n is non zero)',
-    action='store_true'
-    
-)
 parser.add_argument(
-    '-R', '--depth',
-    help='Stop recursion at DEPTH, starting point for jpath',
-    type=int,
-    default=1
+    '-V', '--verbose',
+    help="print executed commands and resuls of json mode to stderr",
+    action='store_true'
 )
-
 #parser.add_argument(
 #    '-W', '--width',
 #    help='Use in-width recursion instead in-depth',
@@ -109,4 +118,5 @@ except ValueError as e:
 #        jsoniter.simple_exec(sys.argv[1:], map(str, el))
 #else:
 #    print 'Unsupported type for iteration:', line_types
-jsoniter.jpath_exec(args,json)
+for e in json:
+    jsoniter.jpath_exec(args.command, e, error_control=False, json_out=args.json, verbose=args.verbose)

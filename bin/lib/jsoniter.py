@@ -3,6 +3,7 @@
 import subprocess
 import sys
 import jpath
+import json
 
 def get_array_inner_types(a):
     '''
@@ -152,7 +153,50 @@ def make_queries(parsed_arg, json):
             # typechecking here
             yield str(result)
 
+def process_arguments(arg_list,json,error_control=None):
+    for arg in arg_list:
+        yield ''.join(make_queries(split_on_queries(arg),json))
 
-def jpath_exec(args, json, error_control=None):
-    processed=[''.join(make_queries(split_on_queries(arg), json)) for arg in args]
-    simple_exec(processed)
+def prepare_out(out):
+    '''
+        prepare json output from subprocess object
+        output is json object with following keys:
+            returncode - return code of process
+            stdout - stdout output of process
+            stderr - stderr output of process
+
+        Note: output should be collected prior wait()
+        or deadlock occure!
+    '''
+    output = {}
+    output['stdout'], output['stderr'] = out.communicate()
+    out.wait()
+    output['returncode'] = out.returncode
+    return output
+
+def jpath_exec(args, json_data, error_control=None, json_out=False, verbose=False):
+
+    to_exec = list(process_arguments(args, json_data, error_control))
+    
+    if verbose and not json:
+        sys.stderr.write(' '.join(to_exec)+'\n')
+
+    out_pipe = subprocess.PIPE
+    err_pipe = subprocess.PIPE
+
+    out = subprocess.Popen(
+        to_exec,
+        stdin=None,
+        stdout=out_pipe,
+        stderr=err_pipe
+    )
+    result = prepare_out(out)
+    if json_out:
+        j = json.dumps(result)
+        sys.stdout.write(j + '\n')
+        if verbose:
+            sys.stderr.write(j + '\n')
+    else:
+        sys.stdout.write(result['stdout'])
+        sys.stderr.write(result['stderr'])
+
