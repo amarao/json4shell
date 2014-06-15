@@ -178,7 +178,7 @@ def jpath_exec(args, json_data, error_control=None, json_out=False, verbose=Fals
 
     to_exec = list(process_arguments(args, json_data, error_control))
     
-    if verbose and not json:
+    if verbose and not json_out:
         sys.stderr.write(' '.join(to_exec)+'\n')
 
     out_pipe = subprocess.PIPE
@@ -191,6 +191,8 @@ def jpath_exec(args, json_data, error_control=None, json_out=False, verbose=Fals
         stderr=err_pipe
     )
     result = prepare_out(out)
+    if verbose and json_out:
+        result['command'] = json.dumps(to_exec)
     if json_out:
         j = json.dumps(result)
         sys.stdout.write(j + '\n')
