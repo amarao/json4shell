@@ -5,6 +5,7 @@ import sys
 import jpath
 import json
 
+
 def get_array_inner_types(a):
     '''
         Return tuple of types
@@ -153,9 +154,11 @@ def make_queries(parsed_arg, json):
             # typechecking here
             yield str(result)
 
-def process_arguments(arg_list,json,error_control=None):
+
+def process_arguments(arg_list, json, error_control=None):
     for arg in arg_list:
-        yield ''.join(make_queries(split_on_queries(arg),json))
+        yield ''.join(make_queries(split_on_queries(arg), json))
+
 
 def prepare_out(out):
     '''
@@ -174,10 +177,17 @@ def prepare_out(out):
     output['returncode'] = out.returncode
     return output
 
-def jpath_exec(args, json_data, error_control=None, json_out=False, verbose=False):
+
+def jpath_exec(
+    args,
+    json_data,
+    error_control=None,
+    json_out=False,
+    verbose=False
+):
 
     to_exec = list(process_arguments(args, json_data, error_control))
-    
+
     if verbose and not json_out:
         sys.stderr.write(' '.join(to_exec)+'\n')
 
@@ -194,12 +204,13 @@ def jpath_exec(args, json_data, error_control=None, json_out=False, verbose=Fals
         result = prepare_out(out)
     except OSError as error:
         result = {
-                'stderr': str(to_exec[0]+": "+error.strerror),
-                'stdout': '',
-                'returncode': error.errno
-            }
+            'stderr': str(to_exec[0]+": "+error.strerror),
+            'stdout': '',
+            'returncode': error.errno
+        }
     if verbose and json_out:
         result['command'] = json.dumps(to_exec)
+
     if json_out:
         j = json.dumps(result)
         sys.stdout.write(j + '\n')
@@ -210,4 +221,3 @@ def jpath_exec(args, json_data, error_control=None, json_out=False, verbose=Fals
             sys.stdout.write(result['stdout']+'\n')
         if result['stderr']:
             sys.stderr.write(result['stderr']+'\n')
-

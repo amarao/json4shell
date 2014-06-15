@@ -37,30 +37,7 @@ from lib import jsoniter
 parser = argparse.ArgumentParser(
     description='Iterate command over JSON from stdin'
     )
-#parser.add_argument(
-#    '-n', '--max-args',
-#    help='Limit arrays substitute for no more than MAX_ARGS elements. If any array has more than MAX_ARGS elements, stop, unless -T or -C',
-#    type=int,
-#    default=0
-#)
-#arrays = parser.add_mutually_exclusive_group()
-#arrays.add_argument(
-#    '-T', '--trim-arrays',
-#    help='Trim excessive elements in arrays (if -n is non zero)',
-#    action='store_true'
-#)
-#arrays.add_argument(
-#    '-C', '--continue-arrays',
-#    help='Repeat execution of command with same normal values but the rest of arrays value (if -n is non zero)',
-#    action='store_true'
-#    
-#)
-#parser.add_argument(
-#    '-R', '--depth',
-#    help='Stop recursion at DEPTH, starting point for jpath (default 1)',
-#    type=int,
-#    default=1
-#)
+
 parser.add_argument(
     '-j', '--json',
     help='Output execution results in json',
@@ -71,17 +48,6 @@ parser.add_argument(
     help="print executed commands and resuls of json mode to stderr",
     action='store_true'
 )
-#parser.add_argument(
-#    '-W', '--width',
-#    help='Use in-width recursion instead in-depth',
-#    action='store_true'
-#)
-#parser.add_argument(
-#    '-M', '--mandatory-depth',
-#    help='Minimal recursion. If not possible (e.g. str at toplevel), stop',
-#    type=int,
-#    default=0
-#)
 parser.add_argument(
     'command',
     nargs=argparse.REMAINDER,
@@ -95,28 +61,11 @@ except ValueError as e:
     print 'Cannot parse json: ' + str(e)
     sys.exit(1)
 
-#if type(json) != list:
-#    print 'JSON is not array at toplevel'
-#    sys.exit(5)
-
-#line_types = jsoniter.get_array_inner_types(json)
-#if (list in line_types or dict in line_types) and len(line_types) > 1:
-#    print 'Multiple types inside array not supported'
-#    sys.exit(5)
-
-#if len(line_types) == 0:
-#    sys.exit(0)
-
-#if line_types <= set((int, str, bool)):
-#    for el in json:
-#        jsoniter.simple_exec(sys.argv[1:], list(str(el)))
-#elif line_types == set((list,)):
-#    for el in json:
-#        if not (jsoniter.get_array_inner_types(el) <= set((str, int, bool))):
-#            print 'Recursion is too deep, tripple nested objects not supported'
-#            sys.exit(5)
-#        jsoniter.simple_exec(sys.argv[1:], map(str, el))
-#else:
-#    print 'Unsupported type for iteration:', line_types
 for e in json:
-    jsoniter.jpath_exec(args.command, e, error_control=False, json_out=args.json, verbose=args.verbose)
+    jsoniter.jpath_exec(
+        args.command,
+        e,
+        error_control=False,
+        json_out=args.json,
+        verbose=args.verbose
+    )
