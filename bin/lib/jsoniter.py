@@ -184,13 +184,20 @@ def jpath_exec(args, json_data, error_control=None, json_out=False, verbose=Fals
     out_pipe = subprocess.PIPE
     err_pipe = subprocess.PIPE
 
-    out = subprocess.Popen(
-        to_exec,
-        stdin=None,
-        stdout=out_pipe,
-        stderr=err_pipe
-    )
-    result = prepare_out(out)
+    try:
+        out = subprocess.Popen(
+            to_exec,
+            stdin=None,
+            stdout=out_pipe,
+            stderr=err_pipe
+        )
+        result = prepare_out(out)
+    except OSError as error:
+        result = {
+                'stderr': str(to_exec[0]+": "+error.strerror),
+                'stdout': '',
+                'returncode': error.errno
+            }
     if verbose and json_out:
         result['command'] = json.dumps(to_exec)
     if json_out:
@@ -199,6 +206,8 @@ def jpath_exec(args, json_data, error_control=None, json_out=False, verbose=Fals
         if verbose:
             sys.stderr.write(j + '\n')
     else:
-        sys.stdout.write(result['stdout'])
-        sys.stderr.write(result['stderr'])
+        if result['stdout']:
+            sys.stdout.write(result['stdout']+'\n')
+        if result['stderr']:
+            sys.stderr.write(result['stderr']+'\n')
 
