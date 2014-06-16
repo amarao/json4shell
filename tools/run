@@ -1,2 +1,2 @@
 #!/bin/bash
-cat sample_data|./slowpipe.py|./jstream.py
+cat sample_data|./slowpipe.py|./yajltest.py
