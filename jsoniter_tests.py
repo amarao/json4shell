@@ -9,70 +9,70 @@ import json
 class iterate_array_tests(unittest.TestCase):
     def test_empty(self):
         self.assertEqual(
-            [x for x in jsoniter.iterate_array([], 0, None)],
+            list(jsoniter.iterate_array([], 0, None)), 
             []
         )
 
     def test_simple_no_limit(self):
         self.assertEqual(
-            [x for x in jsoniter.iterate_array(
-                [1, 2, 3], 0, None)],
+            list(jsoniter.iterate_array(
+                [1, 2, 3], 0, None)),
             [['1', '2', '3']]
         )
 
     def test_types(self):
         self.assertEqual(
-            [x for x in jsoniter.iterate_array(
-                [1, 'a2', True, False], 0, None)],
+            list(jsoniter.iterate_array(
+                [1, 'a2', True, False], 0, None)),
             [['1', 'a2', 'True', 'False']]
         )
 
     def test_simple_limit(self):
         self.assertEqual(
-            [x for x in jsoniter.iterate_array(
-                [1, 2, 3, 4], 2, None)],
+            list(jsoniter.iterate_array(
+                [1, 2, 3, 4], 2, None)),
             [['1', '2'], ['3', '4']]
         )
 
     def test_simple_uneven_limit(self):
         self.assertEqual(
-            [x for x in jsoniter.iterate_array(
-                [1, 2, 3], 2, None)],
+            list(jsoniter.iterate_array(
+                [1, 2, 3], 2, None)),
             [['1', '2'], ['3']]
         )
 
     def test_simple_overlimit(self):
         self.assertEqual(
-            [x for x in jsoniter.iterate_array(
-                [1, 2, 3], 4, None)],
+            list(jsoniter.iterate_array(
+                [1, 2, 3], 4, None)),
             [['1', '2', '3']]
         )
 
     def test_depth_no_limit(self):
         self.assertEqual(
-            [x for x in jsoniter.iterate_array(
-                [1, 2, [3, 4, [5, 6], 7]], 0, 'depth')],
+            list(jsoniter.iterate_array(
+                [1, 2, [3, 4, [5, 6], 7]], 0, 'depth')),
             [['1', '2', '3', '4', '5', '6', '7']]
         )
 
     def test_depth_uneven_limit(self):
         self.assertEqual(
-            [x for x in jsoniter.iterate_array(
-                [1, 2, [3, 4, [5, 6], 7]], 3, 'depth')],
+            list(jsoniter.iterate_array(
+                [1, 2, [3, 4, [5, 6], 7]], 3, 'depth')),
             [['1', '2', '3'], ['4', '5', '6'], ['7']]
         )
 
     def test_width_no_limit(self):
         self.assertEqual(
-            [x for x in jsoniter.iterate_array(
-                [1, 2, [3, 4, [5, 6], 7]], 0, 'width')],
+            list(jsoniter.iterate_array(
+                [1, 2, [3, 4, [5, 6], 7]], 0, 'width')),
             [['1', '2', '3', '4', '7', '5', '6']]
         )
 
     def test_width_uneven_limit(self):
         self.assertEqual(
-            [x for x in jsoniter.iterate_array(
-                [1, 2, [3, 4, [5, 6], 7]], 3, 'width')],
+            list(jsoniter.iterate_array(
+                [1, 2, [3, 4, [5, 6], 7]], 3, 'width')),
             [['1', '2', '3'], ['4', '7', '5'], ['6']]
         )
 
@@ -83,32 +83,32 @@ class iterate_array_tests(unittest.TestCase):
 class SplitOnQueriesTest(unittest.TestCase):
     def test_empty(self):
         self.assertEqual(
-            [x for x in jsoniter.split_on_queries('')],
+            list(jsoniter.split_on_queries('')),
             []
         )
 
     def test_simple(self):
         self.assertEqual(
-            [x for x in jsoniter.split_on_queries('a')],
+            list(jsoniter.split_on_queries('a')),
             [{'str': 'a'}]
         )
 
     def test_one(self):
         self.assertEqual(
-            [x for x in jsoniter.split_on_queries('{query}')],
+            list(jsoniter.split_on_queries('{query}')),
             [{'jpath': 'query'}]
         )
 
     def test_escaping(self):
         self.assertEqual(
-            [x for x in jsoniter.split_on_queries('\\\\\\{\\a\}')],
+            list(jsoniter.split_on_queries('\\\\\\{\\a\}')),
             [{'str': '\\{a}'}]
         )
 
     def test_complex(self):
         self.assertEqual(
-            [x for x in jsoniter.split_on_queries(
-                '\\\\_#{$~}-!("){}a1@*{\\\\}')],
+            list(jsoniter.split_on_queries(
+                '\\\\_#{$~}-!("){}a1@*{\\\\}')),
             [
                 {'str': '\\_#'}, {'jpath': '$~'},
                 {'str': '-!(")'}, {'jpath': ''},
@@ -120,31 +120,31 @@ class SplitOnQueriesTest(unittest.TestCase):
 class MakeQueriesTests(unittest.TestCase):
     def test_empty(self):
         self.assertEqual(
-            [x for x in jsoniter.make_queries([], [])],
+            list(jsoniter.make_queries([], [])),
             []
         )
 
     def test_simple(self):
         self.assertEqual(
-            [x for x in jsoniter.make_queries([{'str': 'a'}], [])],
+            list(jsoniter.make_queries([{'str': 'a'}], [])),
             ['a']
         )
 
     def test_empty_query(self):
         self.assertEqual(
-            [x for x in jsoniter.make_queries([{'jpath': ''}], '')],
+            list(jsoniter.make_queries([{'jpath': ''}], '')),
             ['']
         )
 
     def test_simple_dict(self):
         self.assertEqual(
-            [x for x in jsoniter.make_queries([{'jpath': 'a'}], {'a': 'foo'})],
+            list(jsoniter.make_queries([{'jpath': 'a'}], {'a': 'foo'})),
             ['foo']
         )
 
     def test_mixed(self):
         self.assertEqual(
-            [x for x in jsoniter.make_queries(
+            list(jsoniter.make_queries(
                 [   # input args
                     {'str': 'a'},
                     {'jpath': '.one'},
@@ -153,13 +153,13 @@ class MakeQueriesTests(unittest.TestCase):
                 ],
                 # json to substitute
                 {'one': '1', 'two': 2}  # note 2 is int, not str
-            )],
+            )),
             ['a', '1', 'b', '2']  # result
         )
 
     def test_complex(self):
         self.assertEqual(
-            [x for x in jsoniter.make_queries(
+            list(jsoniter.make_queries(
                 [   # input args
                     {'str': 'su'},
                     {'jpath': '[1].two'},
@@ -184,7 +184,7 @@ class MakeQueriesTests(unittest.TestCase):
                         }
                     }
                 ]
-            )],
+            )),
             ['su', 'ccee', 'ss']
         )
 
