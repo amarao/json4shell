@@ -1,2 +1,6 @@
 __pycache__/
 *.py[cod]
+
+# virtualenv directories
+venv2/
+venv3/
