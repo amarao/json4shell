@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 '''
     test application to see how jsonstream works.
     should be used together with slowpipe.py
@@ -12,4 +12,4 @@ def filestream(fd):
         yield line 
 
 for o in JSONStream(filestream(sys.stdin)):
-    print o
+    print(o)

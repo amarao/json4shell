@@ -14,4 +14,5 @@ except:
 
 for line in sys.stdin:
     sys.stdout.write(line)
+    sys.stdout.flush()
     time.sleep(latency)
