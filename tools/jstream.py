@@ -7,9 +7,11 @@
 from jsonstream import JSONStream
 import sys
 
-def filestream(fd):
-    for line in fd:
-        yield line 
+def filestream():
+    while True:
+        line = sys.stdin.readline()
+        if not line: break # EOF
+        yield line
 
-for o in JSONStream(filestream(sys.stdin)):
+for o in JSONStream(filestream()):
     print(o)
