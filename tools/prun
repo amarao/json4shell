@@ -1,0 +1,2 @@
+#!/bin/bash
+cat sample_data_orig | ./slowpipe.py 0.1 | ./plain_stream.py
