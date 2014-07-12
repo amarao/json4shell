@@ -16,33 +16,45 @@ def filestream():
             break # EOF
         yield line
 
-def dict_o_stream(stream):
-    '''
-        stream whole dicts out of stream
-    '''
-    j=JSONStream(stream).__iter__()
-    empty=((), {})
-    buffer=[]
-    while True:
-        try:
-            obj=j.next()
-            if ( obj[1] == [] or obj[1] == {}):
-                if buffer and buffer != [empty]:
-                #new object detected
-#                    print "yield", buffer
-                    yield assembled(buffer)
-                #like we start an new dict
-                buffer=[empty]
-#                print "adding", buffer
-            else:
-                # like if we just creating dict
-                buffer.append((((obj[0][-1]),), obj[1]))
-#                print "adding", obj, "  ==>   ", (((obj[0][-1]),), obj[1]), "           ====> ",buffer
-        except StopIteration:
-            if buffer:
-                yield assembled(buffer)
-            return
+def get_type(obj):
+    return type(obj[1])
 
-for o in dict_o_stream(filestream()):
-    print(o)
+
+class JStore:
+    def __init__(self, sequence):
+        self.value = None
+        for e in sequence:
+            print "processing",e
+            self.value =  self.add(self.value, e[0], e[1])
+            print "result so far", self.value, "\n\n"
+
+    def add(self, obj, path, value):
+        if obj is None or not path:
+            print "simple add", obj, '<=', path, value, "will return", value
+            return value
+
+        if len(path)==1:
+            print "simple insertion", obj, "<=", path, value
+            while(len(obj)<=path[0] and type(obj)==list):
+                print "enlarging list", obj, "(len", len(obj), ") to", path[0]
+                obj.append(None)
+                print "becoming", obj, len(obj)
+            obj[path[0]]=value
+            return obj
+        else:
+            print "recursion", obj, path[1:], value
+            x=obj
+            x[path[0]]=self.add(obj[path[0]], path[1:], value)
+            print "after recursion", x
+            return x
+
+    def res(self):
+        return self.value
+
+
+a= [o for o in JSONStream(filestream())]
+print "input", a
+b=JStore(a)
+print "assembed", assembled(a)
+print "jstore  ", b.res()
 
