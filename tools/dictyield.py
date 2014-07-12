@@ -14,49 +14,39 @@ def filestream():
 class JStore:
     def __init__(self, iterator):
         self.value = None
-        self.iterator=iterator
+        self.iterator=iterator.__iter__
 
     def __iter__(self):
-        self.iterator=self.iterator.__iter__()
-        self.processed=1
-        return self
+        return self.yielder()
 
-    def gather(self):
-        old_size=1
-        for e in self.iterator:
-            self.value =  self.add(self.value, e[0], e[1])
-            if len(self.value)>old_size:
-                yield 
-            
-
-    def next(self):
-#        print "iteration start:", self.value
-        while not self.value or len(self.value)<=self.processed:
-            e = self.iterator.next()
-            self.value =  self.add(self.value, e[0], e[1])
-#        print "iteration end:", self.value
-        self.processed += 1
-        return self.value[self.processed-2]
+    def yielder(self):
+        for e in self.iterator():
+            new_value =  self.add(self.value, e[0], e[1])
+            if len(new_value) == 0 and self.value:
+                yield self.value.pop(0)
+            self.value=new_value
+            if len(self.value)>1:
+                yield self.value.pop(0)
+        yield self.value.pop(0)
 
 
     def add(self, obj, path, value):
+
         if obj is None or not path:
             return value
 
-        if len(path)==1:
-            if type(obj) == list:
-                obj.append(value)
-            elif type(obj) == dict:
-                obj[path[0]] = value
-            else:
-                raise Exception("Bad obj")
+        if type(obj) == list:
+            key=-1
+            if len(path) == 1:
+                obj.append(None)
+        elif type(obj) == dict:
+            key = path[0]
+            if len(path) == 1:
+                obj[path[0]] = None
         else:
-            if type(obj) == list:
-                obj[-1] = self.add(obj[-1], path[1:], value)
-            elif type(obj) == dict:
-                obj[path[0]] = self.add(obj[path[0]], path[1:], value)
-            else:
-                raise Exception("Bad obj")
+            raise TypeError()
+
+        obj[key] = self.add(obj[key],path[1:],value)
         return obj
 
     def res(self):
